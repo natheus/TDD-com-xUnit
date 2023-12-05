@@ -1,4 +1,6 @@
-﻿using CursoTDD.DominioTest._Builders;
+﻿using Bogus;
+using CursoTDD.Dominio.Cursos;
+using CursoTDD.DominioTest._Builders;
 using CursoTDD.DominioTest._Util;
 using ExpectedObjects;
 using Xunit.Abstractions;
@@ -18,12 +20,13 @@ namespace CursoTDD.DominioTest.Cursos
         {
             _output = output;
             _output.WriteLine("Construtor sendo executado.");
+            var faker = new Faker();
 
-            _nome = "Informática Básica";
-            _cargaHoraria = 80;
+            _nome = faker.Random.Word();
+            _cargaHoraria = faker.Random.Double(50, 1000);
             _publicoAlvo = PublicoAlvo.Estudante;
-            _valor = 950;
-            _descricao = "Uma descrição";
+            _valor = faker.Random.Double(100, 1000);
+            _descricao = faker.Lorem.Paragraph();
         }
 
         public void Dispose()
@@ -84,40 +87,5 @@ namespace CursoTDD.DominioTest.Cursos
                 CursoBuilder.Novo().ComValor(valorInvalido).Build())
                 .ComMensagem("Valor inválido");
         }
-    }
-
-    public enum PublicoAlvo
-    {
-        Estudante = 1,
-        Universitario = 2,
-        Empregado = 3,
-        Empreendedor = 4
-    }
-
-    public class Curso
-    {
-        public Curso(string nome, string descricao, double cargaHoraria, PublicoAlvo publicoAlvo, double valor)
-        {
-            if (string.IsNullOrEmpty(nome))
-                throw new ArgumentException("Nome inválido");
-
-            if (cargaHoraria < 1)
-                throw new ArgumentException("Carga horária inválida");
-
-            if (valor < 1)
-                throw new ArgumentException("Valor inválido");
-
-            Nome = nome;
-            CargaHoraria = cargaHoraria;
-            PublicoAlvo = publicoAlvo;
-            Valor = valor;
-            Descricao = descricao;
-        }
-
-        public string Nome { get; private set; }
-        public string Descricao { get; private set; }
-        public double CargaHoraria { get; private set; }
-        public PublicoAlvo PublicoAlvo { get; private set; }
-        public double Valor { get; private set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using CursoTDD.DominioTest.Cursos;
+﻿using CursoTDD.Dominio.Cursos;
 
 namespace CursoTDD.DominioTest._Builders
 {
